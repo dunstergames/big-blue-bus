@@ -5,9 +5,51 @@ using UnityEngine;
 public class playerScript : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public float speed = 1f;
+    public float speed = 10f;
     private Vector2 movement = Vector2.zero;
     public GameObject bullet;
+    public uint StartingHealth = 3;
+    private uint currentHealth;
+
+    private void Awake()
+    {
+        this.SetHealthToStart();
+    }
+
+    public void LoseLife()
+    {
+        switch (--this.currentHealth)
+        {
+            case (0):
+                {
+                    scoreScript.Score = 0;
+                    this.SetHealthToStart();
+                    break;
+                }
+            case (1):
+                {
+                    GameObject.Find("icecream 1").GetComponent<Renderer>().enabled = true;
+                    GameObject.Find("icecream 2").GetComponent<Renderer>().enabled = false;
+                    GameObject.Find("icecream 3").GetComponent<Renderer>().enabled = false;
+                    break;
+                }
+            case (2):
+                {
+                    GameObject.Find("icecream 1").GetComponent<Renderer>().enabled = true;
+                    GameObject.Find("icecream 2").GetComponent<Renderer>().enabled = true;
+                    GameObject.Find("icecream 3").GetComponent<Renderer>().enabled = false;
+                    break;
+                }
+        }
+    }
+
+    private void SetHealthToStart()
+    {
+        currentHealth = StartingHealth;
+        GameObject.Find("icecream 1").GetComponent<Renderer>().enabled = true;
+        GameObject.Find("icecream 2").GetComponent<Renderer>().enabled = true;
+        GameObject.Find("icecream 3").GetComponent<Renderer>().enabled = true;
+    }
 
     // Start is called before the first frame update
     private void Start()

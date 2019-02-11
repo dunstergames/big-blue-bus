@@ -8,7 +8,6 @@ public class enemyScript : MonoBehaviour
     private float speed;
     private Vector2 movement = Vector2.down;
 
-    // Start is called before the first frame update
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -41,7 +40,8 @@ public class enemyScript : MonoBehaviour
                 }
             case ("player"):
                 {
-                    scoreScript.Score = 0;
+                    playerScript player = collider.gameObject.GetComponent<playerScript>();
+                    player.LoseLife();
                     Destroy(gameObject);
                     break;
                 }
