@@ -12,13 +12,13 @@ public class spawnScript : MonoBehaviour
     {
         InvokeRepeating("spawnEnemy", 0, spawnTime);
     }
-    
+
     private void spawnEnemy()
     {
         var renderer = GetComponent<Renderer>();
-        var left = transform.position.x - (renderer.bounds.size.x / 2);
-        var right = transform.position.x + (renderer.bounds.size.x / 2);
-        var spawnPoint = new Vector2(Random.Range(left, right), transform.position.y);
+        var top = transform.position.y - (renderer.bounds.size.y / 2);
+        var bottom = transform.position.y + (renderer.bounds.size.y / 2);
+        var spawnPoint = new Vector2(transform.position.x, Random.Range(top, bottom));
 
         Instantiate(enemy, spawnPoint, Quaternion.identity);
     }

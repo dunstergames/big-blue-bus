@@ -6,13 +6,26 @@ public class enemyScript : MonoBehaviour
 {
     private Rigidbody2D rb;
     private float speed;
-    private Vector2 movement = Vector2.down;
+    private Vector2 movement = Vector2.right;
+
+    public GameObject poop;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
         speed = Random.Range(3, 6);
+        float firstPoopInterval = Random.Range(0.5f, 1.5f);
+        float poopInterval = Random.Range(1, 4);
+
+        InvokeRepeating("firePoop", firstPoopInterval, poopInterval);
+    }
+
+    private void firePoop()
+    {
+        var renderer = GetComponent<Renderer>();
+        var poopPoint = new Vector2(transform.position.x, transform.position.y);
+        Instantiate(poop, poopPoint, Quaternion.identity);
     }
 
     private void Update()
@@ -27,25 +40,11 @@ public class enemyScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        string colliderName = collider.gameObject.name;
-
-        switch (colliderName)
+        if (collider.gameObject.name == "bullet(Clone)")
         {
-            case ("bullet(Clone)"):
-                {
-                    scoreScript.Score += 100;
-                    Destroy(gameObject);
-                    Destroy(collider.gameObject);
-                    break;
-                }
-            case ("player"):
-                {
-                    playerScript player = collider.gameObject.GetComponent<playerScript>();
-                    player.LoseLife();
-                    Destroy(gameObject);
-                    break;
-                }
+            scoreScript.Score += 100;
+            Destroy(gameObject);
+            Destroy(collider.gameObject);
         }
-
     }
 }
