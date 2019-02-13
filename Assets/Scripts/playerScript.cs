@@ -8,50 +8,31 @@ public class playerScript : MonoBehaviour
     public float speed = 10f;
     private Vector2 movement = Vector2.zero;
     public GameObject bullet;
-    public uint StartingHealth = 3;
-    private uint currentHealth;
+    private int startingHealth;
+    private int currentHealth;
+    public Sprite[] Sprites;
 
     private void Awake()
     {
-        this.SetHealthToStart();
+        startingHealth = Sprites.Length;
+        currentHealth = startingHealth;
     }
 
     public void LoseLife()
     {
-        switch (--this.currentHealth)
+        this.currentHealth--;
+
+        if (currentHealth == 0)
         {
-            case (0):
-                {
-                    scoreScript.Score = 0;
-                    this.SetHealthToStart();
-                    break;
-                }
-            case (1):
-                {
-                    GameObject.Find("icecream 1").GetComponent<Renderer>().enabled = true;
-                    GameObject.Find("icecream 2").GetComponent<Renderer>().enabled = false;
-                    GameObject.Find("icecream 3").GetComponent<Renderer>().enabled = false;
-                    break;
-                }
-            case (2):
-                {
-                    GameObject.Find("icecream 1").GetComponent<Renderer>().enabled = true;
-                    GameObject.Find("icecream 2").GetComponent<Renderer>().enabled = true;
-                    GameObject.Find("icecream 3").GetComponent<Renderer>().enabled = false;
-                    break;
-                }
+            currentHealth = startingHealth;
+            scoreScript.Score = 0;
         }
+
+        int spriteIndex = startingHealth - currentHealth;
+        SpriteRenderer myRenderer = gameObject.GetComponent<SpriteRenderer>();
+        myRenderer.sprite = Sprites[spriteIndex];
     }
 
-    private void SetHealthToStart()
-    {
-        currentHealth = StartingHealth;
-        GameObject.Find("icecream 1").GetComponent<Renderer>().enabled = true;
-        GameObject.Find("icecream 2").GetComponent<Renderer>().enabled = true;
-        GameObject.Find("icecream 3").GetComponent<Renderer>().enabled = true;
-    }
-
-    // Start is called before the first frame update
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -64,54 +45,13 @@ public class playerScript : MonoBehaviour
 
     private void KeyboardUpdate()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-
         if (Input.GetKeyDown("space"))
         {
             fireBullet();
         }
-    }
 
-    private void TouchUpdate()
-    {
-        foreach (Touch touch in Input.touches)
-        {
-            double halfScreenX = Screen.width / 2.0;
-            double cutScreenY = Screen.height * 0.25;
+        movement.x = Input.GetAxisRaw("Horizontal");
 
-            if (touch.position.y > cutScreenY)
-            {
-                if (touch.phase == TouchPhase.Began)
-                {
-                    fireBullet();
-                }
-            }
-            else if (touch.position.x < halfScreenX)
-            {
-                if (touch.phase == TouchPhase.Stationary)
-                {
-                    movement.x = -1;
-                }
-            }
-            else if (touch.position.x > halfScreenX)
-            {
-                if (touch.phase == TouchPhase.Stationary)
-                {
-                    movement.x = 1;
-                }
-            }
-        }
-    }
-
-    void Update()
-    {
-        KeyboardUpdate();
-        TouchUpdate();
-        MovePlayer();
-    }
-
-    private void MovePlayer()
-    {
         Vector2 newPosition = rb.position + (movement * speed * Time.deltaTime);
         Vector2 screenEdge = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
@@ -124,5 +64,33 @@ public class playerScript : MonoBehaviour
             newPosition.x = screenEdge.x;
         }
         rb.MovePosition(newPosition);
+    }
+
+    private void TouchUpdate()
+    {
+        foreach (Touch touch in Input.touches)
+        {
+            double cutScreenY = Screen.height * 0.25;
+
+            if (touch.position.y > cutScreenY)
+            {
+                if (touch.phase == TouchPhase.Began)
+                {
+                    fireBullet();
+                }
+            }
+            else
+            {
+                Vector2 screenTouchPoint = Camera.main.ScreenToWorldPoint(new Vector2(touch.position.x, 0));
+                Vector2 newPosition = new Vector2(screenTouchPoint.x, rb.position.y);
+                rb.MovePosition(newPosition);
+            }
+        }
+    }
+
+    void Update()
+    {
+        KeyboardUpdate();
+        TouchUpdate();
     }
 }
