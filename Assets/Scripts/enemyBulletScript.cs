@@ -27,10 +27,15 @@ public class enemyBulletScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.name == "player")
+        string colliderName = collider.gameObject.name;
+        if (colliderName == "player")
         {
             playerScript player = collider.gameObject.GetComponent<playerScript>();
             player.LoseLife();
+            Destroy(gameObject);
+        }
+        else if (colliderName == "Ground")
+        {
             Destroy(gameObject);
         }
     }
