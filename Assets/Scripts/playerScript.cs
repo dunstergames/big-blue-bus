@@ -11,6 +11,7 @@ public class playerScript : MonoBehaviour
     private int startingHealth;
     private int currentHealth;
     public Sprite[] Sprites;
+    public uint MaxNumberOfBullets;
 
     private void Awake()
     {
@@ -40,7 +41,10 @@ public class playerScript : MonoBehaviour
 
     private void fireBullet()
     {
-        Instantiate(bullet, transform.position, Quaternion.identity);
+        if (GameObject.FindGameObjectsWithTag("Bullet").Length < MaxNumberOfBullets)
+        {
+            Instantiate(bullet, transform.position, Quaternion.identity);
+        }
     }
 
     private void KeyboardUpdate()
