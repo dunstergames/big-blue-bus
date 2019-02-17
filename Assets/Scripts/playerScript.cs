@@ -15,6 +15,7 @@ public class playerScript : MonoBehaviour
     public uint MaxNumberOfBullets;
 
     private GameObject[] gameOverObjects;
+    private GameObject[] pausedMenuObjects;
 
     public void LoseLife()
     {
@@ -59,8 +60,10 @@ public class playerScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         gameOverObjects = GameObject.FindGameObjectsWithTag("ShowOnGameOver");
+        pausedMenuObjects = GameObject.FindGameObjectsWithTag("ShowOnPaused");
         startingHealth = Sprites.Length;
         HideGameOverObjects();
+        ResumeGame();
         currentHealth = startingHealth;
     }
 
@@ -72,11 +75,45 @@ public class playerScript : MonoBehaviour
         }
     }
 
+    private void PauseGame()
+    {
+        foreach (GameObject gameObject in pausedMenuObjects)
+        {
+            gameObject.SetActive(true);
+        }
+
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
+
+        foreach (GameObject gameObject in pausedMenuObjects)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     private void KeyboardUpdate()
     {
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown("space"))
         {
             fireBullet();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
         }
 
         movement.x = Input.GetAxisRaw("Horizontal");
