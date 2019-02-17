@@ -42,7 +42,7 @@ public class enemyScript : MonoBehaviour
     {
         if (collider.gameObject.name == "bullet(Clone)")
         {
-            scoreScript.Score += 100;
+            scoreScript.Score += 50;
             Destroy(gameObject);
             Destroy(collider.gameObject);
         }
