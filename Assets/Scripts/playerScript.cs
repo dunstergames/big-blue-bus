@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerScript : MonoBehaviour
 {
@@ -13,11 +14,7 @@ public class playerScript : MonoBehaviour
     public Sprite[] Sprites;
     public uint MaxNumberOfBullets;
 
-    private void Awake()
-    {
-        startingHealth = Sprites.Length;
-        currentHealth = startingHealth;
-    }
+    private GameObject[] gameOverObjects;
 
     public void LoseLife()
     {
@@ -25,8 +22,8 @@ public class playerScript : MonoBehaviour
 
         if (currentHealth == 0)
         {
-            currentHealth = startingHealth;
-            scoreScript.Score = 0;
+            GameOver();
+            return;
         }
 
         int spriteIndex = startingHealth - currentHealth;
@@ -34,9 +31,37 @@ public class playerScript : MonoBehaviour
         myRenderer.sprite = Sprites[spriteIndex];
     }
 
+    private void GameOver()
+    {
+        foreach (GameObject gameObject in gameOverObjects)
+        {
+            gameObject.SetActive(true);
+        }
+
+        Time.timeScale = 0;
+    }
+
+    private void HideGameOverObjects()
+    {
+        foreach (GameObject gameObject in gameOverObjects)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1;
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        gameOverObjects = GameObject.FindGameObjectsWithTag("ShowOnGameOver");
+        startingHealth = Sprites.Length;
+        HideGameOverObjects();
+        currentHealth = startingHealth;
     }
 
     private void fireBullet()

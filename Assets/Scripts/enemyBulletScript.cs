@@ -31,8 +31,8 @@ public class enemyBulletScript : MonoBehaviour
         if (colliderName == "player")
         {
             playerScript player = collider.gameObject.GetComponent<playerScript>();
-            player.LoseLife();
             Destroy(gameObject);
+            player.LoseLife();
         }
         else if (colliderName == "Ground")
         {
