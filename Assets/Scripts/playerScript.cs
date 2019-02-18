@@ -16,6 +16,12 @@ public class playerScript : MonoBehaviour
 
     private GameObject[] gameOverObjects;
     private GameObject[] pausedMenuObjects;
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public void LoseLife()
     {
@@ -72,6 +78,7 @@ public class playerScript : MonoBehaviour
         if (GameObject.FindGameObjectsWithTag("Bullet").Length < MaxNumberOfBullets)
         {
             Instantiate(bullet, transform.position, Quaternion.identity);
+            audioSource.Play();
         }
     }
 
