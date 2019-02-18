@@ -87,12 +87,12 @@ public class playerScript : MonoBehaviour
 
     public void ResumeGame()
     {
-        Time.timeScale = 1;
-
         foreach (GameObject gameObject in pausedMenuObjects)
         {
             gameObject.SetActive(false);
         }
+
+        Time.timeScale = 1;
     }
 
     public void ExitGame()
