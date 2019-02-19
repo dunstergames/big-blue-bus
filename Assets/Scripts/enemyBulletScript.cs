@@ -7,6 +7,7 @@ public class enemyBulletScript : MonoBehaviour
     private Rigidbody2D rb;
     private float speed;
     private Vector2 movement = Vector2.down;
+    public AudioClip ImpactAudioClip;
 
     private void Start()
     {
@@ -30,12 +31,14 @@ public class enemyBulletScript : MonoBehaviour
         string colliderName = collider.gameObject.name;
         if (colliderName == "player")
         {
+            AudioSource.PlayClipAtPoint(ImpactAudioClip, Camera.main.transform.position, 1.5f);
             playerScript player = collider.gameObject.GetComponent<playerScript>();
             Destroy(gameObject);
             player.LoseLife();
         }
         else if (colliderName == "Ground")
         {
+            AudioSource.PlayClipAtPoint(ImpactAudioClip, Camera.main.transform.position, 1.5f);
             Destroy(gameObject);
         }
     }
