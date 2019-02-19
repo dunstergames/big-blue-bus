@@ -7,8 +7,8 @@ public class enemyScript : MonoBehaviour
     private Rigidbody2D rb;
     private float speed;
     private Vector2 movement = Vector2.right;
-
     public GameObject poop;
+    public AudioClip DeathAudioClip;
 
     private void Start()
     {
@@ -42,6 +42,7 @@ public class enemyScript : MonoBehaviour
     {
         if (collider.gameObject.name == "bullet(Clone)")
         {
+            AudioSource.PlayClipAtPoint(DeathAudioClip, Camera.main.transform.position, 1.5f);
             scoreScript.Score += 50;
             Destroy(gameObject);
             Destroy(collider.gameObject);

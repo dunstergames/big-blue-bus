@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poop: {fileID: 2747655621756336267, guid: 42672a38895e10649b147211d5d4c102, type: 3}
+  DeathAudioClip: {fileID: 8300000, guid: 3aa9eea86e48baf4f995ef2ca7f3b971, type: 3}
 --- !u!60 &447264937144297807
 PolygonCollider2D:
   m_ObjectHideFlags: 0
