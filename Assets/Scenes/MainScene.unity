@@ -441,7 +441,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fad834c5c27f92142b295a31269014af, type: 3}
   - {fileID: 21300000, guid: e9f6c3d0e4262c24f96841b17b634024, type: 3}
   - {fileID: 21300000, guid: bc280197f78e72848a01ba050671f5be, type: 3}
-  MaxNumberOfBullets: 30
+  MaxNumberOfBullets: 3
   ThrowSoundBites:
   - {fileID: 8300000, guid: efb9c0185f087ae46b2aef139483eae0, type: 3}
   - {fileID: 8300000, guid: f52fabce46216494fb931937fc19939c, type: 3}
