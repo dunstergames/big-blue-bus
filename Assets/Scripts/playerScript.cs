@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,14 +13,14 @@ public class playerScript : MonoBehaviour
     private int currentHealth;
     public Sprite[] Sprites;
     public uint MaxNumberOfBullets;
-
     private GameObject[] gameOverObjects;
     private GameObject[] pausedMenuObjects;
-    private AudioSource audioSource;
+    private AudioSource throwAudioSource;
+    public AudioClip GameOverSoundBite;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        throwAudioSource = GetComponent<AudioSource>();
     }
 
     private void LoseLife()
@@ -40,6 +40,8 @@ public class playerScript : MonoBehaviour
 
     private void GameOver()
     {
+        AudioSource.PlayClipAtPoint(GameOverSoundBite, Camera.main.transform.position, 1.5f);
+
         foreach (GameObject gameObject in gameOverObjects)
         {
             gameObject.SetActive(true);
@@ -78,7 +80,7 @@ public class playerScript : MonoBehaviour
         if (GameObject.FindGameObjectsWithTag("Bullet").Length < MaxNumberOfBullets)
         {
             Instantiate(bullet, transform.position, Quaternion.identity);
-            audioSource.Play();
+            throwAudioSource.Play();
         }
     }
 
