@@ -29,14 +29,7 @@ public class enemyBulletScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider)
     {
         string colliderName = collider.gameObject.name;
-        if (colliderName == "player")
-        {
-            AudioSource.PlayClipAtPoint(ImpactAudioClip, Camera.main.transform.position, 1.5f);
-            playerScript player = collider.gameObject.GetComponent<playerScript>();
-            Destroy(gameObject);
-            player.LoseLife();
-        }
-        else if (colliderName == "Ground")
+        if ((colliderName == "player") || (colliderName == "Ground"))
         {
             AudioSource.PlayClipAtPoint(ImpactAudioClip, Camera.main.transform.position, 1.5f);
             Destroy(gameObject);

@@ -23,7 +23,7 @@ public class playerScript : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void LoseLife()
+    private void LoseLife()
     {
         this.currentHealth--;
 
@@ -165,5 +165,14 @@ public class playerScript : MonoBehaviour
     {
         KeyboardUpdate();
         TouchUpdate();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        string colliderName = collider.gameObject.name;
+        if (colliderName == "poop(Clone)")
+        {
+            LoseLife();
+        }
     }
 }
