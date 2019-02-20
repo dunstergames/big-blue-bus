@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +16,7 @@ public class playerScript : MonoBehaviour
     private GameObject[] gameOverObjects;
     private GameObject[] pausedMenuObjects;
     private AudioSource throwAudioSource;
+    public AudioClip[] ThrowSoundBites;
     public AudioClip GameOverSoundBite;
 
     private void Awake()
@@ -75,12 +76,24 @@ public class playerScript : MonoBehaviour
         currentHealth = startingHealth;
     }
 
+    private void PlayRandomThrowSoundBite()
+    {
+        Random.InitState(System.DateTime.Now.Millisecond);
+        int soundBiteIndex = Random.Range(0, ThrowSoundBites.Length);
+        AudioSource.PlayClipAtPoint(ThrowSoundBites[soundBiteIndex], Camera.main.transform.position, 1.5f);
+    }
+
     private void fireBullet()
     {
         if (GameObject.FindGameObjectsWithTag("Bullet").Length < MaxNumberOfBullets)
         {
             Instantiate(bullet, transform.position, Quaternion.identity);
             throwAudioSource.Play();
+
+            if (Random.value > 0.5)
+            {
+                PlayRandomThrowSoundBite();
+            }
         }
     }
 

@@ -441,7 +441,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fad834c5c27f92142b295a31269014af, type: 3}
   - {fileID: 21300000, guid: e9f6c3d0e4262c24f96841b17b634024, type: 3}
   - {fileID: 21300000, guid: bc280197f78e72848a01ba050671f5be, type: 3}
-  MaxNumberOfBullets: 3
+  MaxNumberOfBullets: 30
+  ThrowSoundBites:
+  - {fileID: 8300000, guid: efb9c0185f087ae46b2aef139483eae0, type: 3}
+  - {fileID: 8300000, guid: f52fabce46216494fb931937fc19939c, type: 3}
+  - {fileID: 8300000, guid: 12e9cfa0355cee3419b14da9370ac982, type: 3}
+  - {fileID: 8300000, guid: a9e63cb9f8f0da74db27e8e87ef0f696, type: 3}
   GameOverSoundBite: {fileID: 8300000, guid: 8372d382ed4bccb43ae6292a466d0d99, type: 3}
 --- !u!50 &343145919
 Rigidbody2D:
